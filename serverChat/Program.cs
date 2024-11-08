@@ -9,7 +9,7 @@ class MyTcpListener
     {
         TcpListener server = new TcpListener(IPAddress.Any, 13000);
         server.Start();
-        // Цикл прослушивания
+
         while (true)
         {
             try
@@ -19,20 +19,16 @@ class MyTcpListener
                 {
                     Console.WriteLine("Подключение состоялось!");
 
-                    // Получить поток клиентского сокета
+
                     using (Stream stream = client.GetStream())
                     {
-                        // Получить строку из потока сокета
                         using (var br = new BinaryReader(stream))
                         {
                             string data = br.ReadString();
-
                             Console.WriteLine("Получено: {0}", data);
 
-                            // Обработать строку, которую прислал клиент
                             data = ProcessCommand(data);
 
-                            // Отправить строку в поток сокета
                             using (var bw = new BinaryWriter(stream))
                             {
                                 bw.Write(data);
